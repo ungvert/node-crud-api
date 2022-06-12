@@ -1,0 +1,35 @@
+{
+  "name": "crud-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ungvert/node-crud-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ungvert/node-crud-api/issues"
+  },
+  "homepage": "https://github.com/ungvert/node-crud-api#readme",
+  "type": "module",
+  "engines": {
+    "node": ">=16.15.0"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.17.0",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "uuid": "^8.3.2",
+    "webpack": "^5.73.0"
+  }
+}
