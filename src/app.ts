@@ -3,7 +3,7 @@ import { ENDPOINTS } from "./endpoints.js";
 import { usersController } from "./usersController.js";
 
 const server = http.createServer(async (req, res) => {
-  console.log("req", req.url);
+  console.log("req", req.url, req.method);
 
   if (!req.url?.startsWith(ENDPOINTS.users)) {
     res.writeHead(404);
