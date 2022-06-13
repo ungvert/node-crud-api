@@ -1,26 +1,21 @@
 import http from "http";
-import { User } from "./user";
+import { ENDPOINTS } from "./endpoints.js";
+import { usersController } from "./usersController.js";
 
-const users: User[] = [];
+const server = http.createServer(async (req, res) => {
+  console.log("req", req.url);
 
-export const ENDPOINTS = {
-  users: "/api/users",
-};
-
-function usersController(req: http.IncomingMessage, res: http.ServerResponse) {
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(
-    JSON.stringify({
-      data: "Hello World!",
-    })
-  );
-}
-const server = http.createServer((req, res) => {
-  if (req.url?.startsWith(ENDPOINTS.users)) {
-    return usersController(req, res);
-  } else {
+  if (!req.url?.startsWith(ENDPOINTS.users)) {
     res.writeHead(404);
-    res.end("Wrong path");
+    res.end("Endpoind not found");
+    return;
+  }
+
+  try {
+    return await usersController(req, res);
+  } catch (error) {
+    res.writeHead(500);
+    res.end("Server encountered an unexpected error");
   }
 });
 
