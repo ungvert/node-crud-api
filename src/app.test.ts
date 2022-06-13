@@ -1,7 +1,12 @@
 import { assert, describe, expect, it } from "vitest";
+import request from "supertest";
+import http from "http";
+import { ENDPOINTS } from "./app";
 
-describe("suite name", () => {
-  it("bar", () => {
-    expect(1 + 1).eq(2);
+const req = request("http://localhost:8000");
+
+describe("App", () => {
+  it("Requests to non-existing endpoints should be handled with 404", async () => {
+    await req.get("/api/non-existing-endpoint").expect(404);
   });
 });

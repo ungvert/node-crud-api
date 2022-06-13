@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/index.ts",
+    "start": "nodemon ./src/app.ts",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
@@ -36,7 +36,10 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.42",
+    "@types/supertest": "^2.0.12",
+    "@types/uuid": "^8.3.4",
     "c8": "^7.11.3",
+    "supertest": "^6.2.3",
     "vitest": "^0.14.2"
   }
 }
