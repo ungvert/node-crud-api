@@ -1,22 +1,24 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { User, UserId } from "./user.js";
 import { v4, validate } from "uuid";
+import { ENDPOINTS } from "../endpoints.js";
+
+import { User, UserId } from "./user.js";
 
 const users: Record<UserId, User> = {};
 
 export async function usersController(req: IncomingMessage, res: ServerResponse) {
-  const userId = req.url?.split("/").pop();
+  const [_, userId] = req.url?.replace(ENDPOINTS.users, "").split("/") || [];
 
   if (req.method === "GET") {
     if (!userId) {
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(users));
+      res.end(JSON.stringify(Object.entries(users).map(([key, value]) => value)));
       return;
     }
 
     if (!validate(userId)) {
       res.writeHead(400);
-      res.end("UserId is not invalid");
+      res.end("User Id is not valid");
       return;
     }
 
@@ -35,7 +37,7 @@ export async function usersController(req: IncomingMessage, res: ServerResponse)
   if (req.method === "PUT") {
     if (!userId || !validate(userId)) {
       res.writeHead(400);
-      res.end("UserId is not invalid");
+      res.end("User Id is not valid");
       return;
     }
 
