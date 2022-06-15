@@ -47,13 +47,13 @@ describe(`Users`, () => {
         .expect(200);
       expect(responcePut.body).toStrictEqual(updatedUser);
 
-      // // DELETE
-      // // With a DELETE api/users/{userId} request, we delete the created object by id (confirmation of successful deletion is expected)
-      // await req.delete(`${ENDPOINTS.users}/${newUser.id}`).expect(204);
+      // DELETE
+      // With a DELETE api/users/{userId} request, we delete the created object by id (confirmation of successful deletion is expected)
+      await request.delete(`${ENDPOINTS.users}/${newUser.id}`).expect(204);
 
-      // // READ
-      // // With a GET api/users/{userId} request, we are trying to get a deleted object by id (expected answer is that there is no such object)
-      // await req.get(`${ENDPOINTS.users}/${newUser.id}`).expect(404);
+      // READ
+      // With a GET api/users/{userId} request, we are trying to get a deleted object by id (expected answer is that there is no such object)
+      await request.get(`${ENDPOINTS.users}/${newUser.id}`).expect(404);
     });
   });
 
@@ -62,6 +62,9 @@ describe(`Users`, () => {
     expect(responce.text).toBe("User Id is not valid");
 
     responce = await request.put(`${ENDPOINTS.users}/not-valid-uuid`).expect(400);
+    expect(responce.text).toBe("User Id is not valid");
+
+    responce = await request.delete(`${ENDPOINTS.users}/not-valid-uuid`).expect(400);
     expect(responce.text).toBe("User Id is not valid");
   });
 });

@@ -1,4 +1,3 @@
-import { once } from "events";
 import http from "http";
 
 import { ENDPOINTS } from "./endpoints.js";

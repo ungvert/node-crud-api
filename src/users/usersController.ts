@@ -70,6 +70,26 @@ export async function usersController(req: IncomingMessage, res: ServerResponse)
     return;
   }
 
+  if (req.method === "DELETE") {
+    if (!userId || !validate(userId)) {
+      res.writeHead(400);
+      res.end("User Id is not valid");
+      return;
+    }
+
+    const user = users[userId];
+    if (!user) {
+      res.writeHead(404);
+      res.end(`User with Id ${userId} doesn't exist`);
+      return;
+    }
+
+    delete users[userId];
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   throw new Error("Unexpected input");
 }
 
