@@ -3,7 +3,7 @@ import http from "http";
 import { ENDPOINTS } from "./endpoints.js";
 import { usersController } from "./users/usersController.js";
 
-export async function createAndStartServer() {
+export async function createServer() {
   const server = http.createServer(async (req, res) => {
     console.log("req", req.url, req.method);
 

@@ -67,4 +67,12 @@ describe(`Users`, () => {
     responce = await request.delete(`${ENDPOINTS.users}/not-valid-uuid`).expect(400);
     expect(responce.text).toBe("User Id is not valid");
   });
+
+  // it(`should not create user, if all required fields not filled`, async () => {
+  //   const partialUser: Partial<User> = {
+  //     username: "Test user",
+  //     age: 42,
+  //   };
+  //   await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+  // });
 });

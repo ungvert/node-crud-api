@@ -1,7 +1,7 @@
 import { once } from "events";
-import { createAndStartServer } from "./createAndStartServer.js";
+import { createServer } from "./createServer.js";
 
-const server = await createAndStartServer();
+const server = await createServer();
 
 server.listen(8000);
 
