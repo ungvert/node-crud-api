@@ -96,6 +96,11 @@ async function updateUser(req: IncomingMessage, res: ServerResponse, userId: Use
   if (!user) return;
 
   const userUpdated = await parseRequestBody<User>(req);
+  if (!isUserValid(userUpdated)) {
+    res.writeHead(400);
+    res.end("Input is not valid");
+    return;
+  }
   users[userId] = userUpdated;
 
   res.writeHead(200, {

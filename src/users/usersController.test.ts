@@ -68,7 +68,7 @@ describe(`Users`, () => {
     expect(responce.text).toBe("User Id is not valid");
   });
 
-  it(`should not create user, if all required fields not filled`, async () => {
+  it(`should not create user, if all required fields not filled or have mismatched type`, async () => {
     let partialUser: Partial<User> = {
       username: "Test user",
       age: 42,
@@ -85,11 +85,10 @@ describe(`Users`, () => {
       username: "Test user",
       age: 42,
     };
-    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
-  });
 
-  it(`should not create user, if any field have mismatched type`, async () => {
-    let partialUser = {
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+
+    partialUser = {
       username: "Test user",
       age: 42,
       hobbies: [null, "painting", "hiking"] as string[],
@@ -109,5 +108,59 @@ describe(`Users`, () => {
       hobbies: ["cooking", "painting", "hiking"],
     };
     await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+  });
+
+  it(`should not edit user, if all required fields not filled or have mismatched type`, async () => {
+    // A new object is created by a POST api/users request
+    const newUser: User = {
+      username: "Test user",
+      age: 42,
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    const responceAddNew = await request
+      .post(`${ENDPOINTS.users}`)
+      .send(newUser)
+      .expect(201);
+    expect(responceAddNew.body.id).toBeTruthy();
+    newUser.id = responceAddNew.body.id;
+
+    let partialUser: Partial<User> = {
+      username: "Test user",
+      age: 42,
+    };
+    await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      age: 42,
+    };
+    await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      age: 42,
+      hobbies: [null, "painting", "hiking"] as string[],
+    };
+    await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: null as unknown as string,
+      age: 42,
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      age: null as unknown as number,
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
   });
 });
