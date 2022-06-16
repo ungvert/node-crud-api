@@ -31,6 +31,22 @@ const routerUserWithId: Partial<Record<HttpMethod, Resolver>> = {
   [HttpMethod.DELETE]: async (req, res, userId) => deleteUser(req, res, userId),
 };
 
+function isUserValid(user: unknown): user is User {
+  if (!user || typeof user !== "object") return false;
+
+  const age = (user as User).age;
+  if (!age || typeof age !== "number") return false;
+
+  const username = (user as User).username;
+  if (!username || typeof username !== "string") return false;
+
+  const hobbies = (user as User).hobbies;
+  if (!Array.isArray(hobbies) || hobbies.some((item) => typeof item !== "string"))
+    return false;
+
+  return true;
+}
+
 async function getAllUsers(req: IncomingMessage, res: ServerResponse) {
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(JSON.stringify(Object.entries(users).map(([key, value]) => value)));
@@ -39,7 +55,12 @@ async function getAllUsers(req: IncomingMessage, res: ServerResponse) {
 async function createUser(req: IncomingMessage, res: ServerResponse) {
   const user = await parseRequestBody<User>(req);
   user.id = generateUserId();
-  // TODO: validate
+
+  if (!isUserValid(user)) {
+    res.writeHead(400);
+    res.end("Input is not valid");
+    return;
+  }
   users[user.id] = user;
 
   res.writeHead(201, { "Content-Type": "application/json" });
@@ -75,7 +96,6 @@ async function updateUser(req: IncomingMessage, res: ServerResponse, userId: Use
   if (!user) return;
 
   const userUpdated = await parseRequestBody<User>(req);
-  // TODO: validate
   users[userId] = userUpdated;
 
   res.writeHead(200, {

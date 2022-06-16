@@ -68,11 +68,46 @@ describe(`Users`, () => {
     expect(responce.text).toBe("User Id is not valid");
   });
 
-  // it(`should not create user, if all required fields not filled`, async () => {
-  //   const partialUser: Partial<User> = {
-  //     username: "Test user",
-  //     age: 42,
-  //   };
-  //   await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
-  // });
+  it(`should not create user, if all required fields not filled`, async () => {
+    let partialUser: Partial<User> = {
+      username: "Test user",
+      age: 42,
+    };
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      age: 42,
+    };
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+  });
+
+  it(`should not create user, if any field have mismatched type`, async () => {
+    let partialUser = {
+      username: "Test user",
+      age: 42,
+      hobbies: [null, "painting", "hiking"] as string[],
+    };
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: null as unknown as string,
+      age: 42,
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+
+    partialUser = {
+      username: "Test user",
+      age: null as unknown as number,
+      hobbies: ["cooking", "painting", "hiking"],
+    };
+    await request.post(`${ENDPOINTS.users}`).send(partialUser).expect(400);
+  });
 });
