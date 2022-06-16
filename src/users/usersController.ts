@@ -96,23 +96,15 @@ async function deleteUser(req: IncomingMessage, res: ServerResponse, userId: Use
 export async function usersController(req: IncomingMessage, res: ServerResponse) {
   const [_, userId] = req.url?.replace(ENDPOINTS.users, "").split("/") || [];
 
-  if (!userId) {
-    const resolver = routerUser[req.method as HttpMethod];
-    if (!resolver) {
-      new Error("Unexpected input");
-      return;
-    }
-    await resolver(req, res);
-    return;
-  } else {
-    const resolver = routerUserWithId[req.method as HttpMethod];
-    if (!resolver) {
-      new Error("Unexpected input");
-      return;
-    }
-    await resolver(req, res, userId);
+  const resolver = userId
+    ? routerUserWithId[req.method as HttpMethod]
+    : routerUser[req.method as HttpMethod];
+
+  if (!resolver) {
+    new Error("Unexpected input");
     return;
   }
+  await resolver(req, res, userId);
 }
 
 async function parseRequestBody<T>(req: IncomingMessage): Promise<Awaited<T>> {
