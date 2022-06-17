@@ -2,9 +2,12 @@
   "name": "crud-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon ./src/app.ts",
+    "start:dev": "npm run start",
+    "start:prod": "npm run build && node ./dist/app.js",
+    "build": "tsc",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
@@ -31,8 +34,7 @@
     "prettier": "^2.6.2",
     "ts-node": "^10.8.1",
     "typescript": "^4.7.3",
-    "uuid": "^8.3.2",
-    "webpack": "^5.73.0"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.42",
