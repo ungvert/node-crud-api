@@ -1,12 +1,11 @@
 import { once } from "events";
 import http from "http";
 import { pid } from "process";
-import { GetDb } from "./db.js";
 
 import { ENDPOINTS } from "./endpoints.js";
 import { usersController } from "./users/usersController.js";
 
-export async function createServer(getDb: GetDb) {
+export async function createServer() {
   const server = http.createServer(async (req, res) => {
     console.log(pid, req.method, req.url);
 
@@ -18,9 +17,8 @@ export async function createServer(getDb: GetDb) {
       return;
     }
 
-    const db = getDb();
     try {
-      return await usersController(db, req, res);
+      return await usersController(req, res);
     } catch (error) {
       res.writeHead(500);
       res.end("Server encountered an unexpected error " + JSON.stringify(error));
@@ -30,8 +28,8 @@ export async function createServer(getDb: GetDb) {
   return server;
 }
 
-export async function startServer(port: number = 8000, getDb: GetDb) {
-  const server = await createServer(getDb);
+export async function startServer(port: number = 8000) {
+  const server = await createServer();
   server.listen(port);
   await once(server, "listening");
 }

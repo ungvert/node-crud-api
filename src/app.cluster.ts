@@ -3,7 +3,7 @@ import { cpus } from "os";
 import { pid } from "process";
 
 import { startServer } from "./server.js";
-import { Database, db as initialDb } from "./db.js";
+import { updateDb } from "./db.js";
 
 import "dotenv/config";
 
@@ -18,21 +18,21 @@ if (cluster.isPrimary) {
     worker.on("error", (err) => console.log("Worker error", err));
   }
 } else {
-  let db: Database = initialDb;
-  let getDb = (): Database => db;
+  // let db = initialDb;
+  // let getDb = (): Database => db;
 
   process.on("message", async function (msg: any) {
     try {
       if (msg.task && msg.task === "sync") {
-        db = msg.data;
+        updateDb(msg.data);
       }
     } catch (error) {
-      console.log("Cluster error", error);
+      console.log("Worker error", error);
     }
   });
 
   const id = cluster.worker?.id;
-  await startServer(port, getDb);
+  await startServer(port);
   console.log(`Worker: ${id}, pid: ${pid}, Server started: http://localhost:${port}`);
 }
 

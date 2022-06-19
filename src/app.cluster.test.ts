@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import supertest, { SuperTest } from "supertest";
+import supertest from "supertest";
 import "dotenv/config";
 
 import { ENDPOINTS } from "./endpoints.js";
