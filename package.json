@@ -10,6 +10,7 @@
     "start:multi": "npm run build && node ./dist/app.cluster.js",
     "build": "tsc",
     "test": "vitest",
+    "test:multi": "cross-env TEST_CLUSTER=1 vitest --testNamePattern cluster",
     "coverage": "vitest run --coverage"
   },
   "repository": {

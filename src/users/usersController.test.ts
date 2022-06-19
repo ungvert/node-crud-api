@@ -164,3 +164,18 @@ describe(`Users`, () => {
     await request.put(`${ENDPOINTS.users}/${newUser.id}`).send(partialUser).expect(400);
   });
 });
+
+async function addUser(user: User) {
+  const newUser: User = {
+    username: "Test user",
+    age: 42,
+    hobbies: ["cooking", "painting", "hiking"],
+  };
+  const responceAddNew = await request
+    .post(`${ENDPOINTS.users}`)
+    .send(newUser)
+    .expect(201);
+  expect(responceAddNew.body.id).toBeTruthy();
+  newUser.id = responceAddNew.body.id;
+  expect(responceAddNew.body).toStrictEqual(newUser);
+}

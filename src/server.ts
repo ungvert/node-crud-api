@@ -10,7 +10,7 @@ export async function createServer(getDb: GetDb) {
   const server = http.createServer(async (req, res) => {
     console.log(pid, req.method, req.url);
 
-    res.setHeader("Process-Id", process.pid);
+    res.setHeader("process-id", process.pid);
 
     if (!req.url?.startsWith(ENDPOINTS.users)) {
       res.writeHead(404);
@@ -19,8 +19,6 @@ export async function createServer(getDb: GetDb) {
     }
 
     const db = getDb();
-    console.log("db", db);
-
     try {
       return await usersController(db, req, res);
     } catch (error) {
