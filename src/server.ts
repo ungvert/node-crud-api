@@ -3,7 +3,7 @@ import http from "http";
 import { pid } from "process";
 
 import { ENDPOINTS } from "./endpoints.js";
-import { usersController } from "./users/usersController.js";
+import { usersController } from "./users/user.controller.js";
 
 export async function createServer() {
   const server = http.createServer(async (req, res) => {

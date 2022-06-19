@@ -18,9 +18,6 @@ if (cluster.isPrimary) {
     worker.on("error", (err) => console.log("Worker error", err));
   }
 } else {
-  // let db = initialDb;
-  // let getDb = (): Database => db;
-
   process.on("message", async function (msg: any) {
     try {
       if (msg.task && msg.task === "sync") {

@@ -7,7 +7,7 @@ import {
   readUser,
   updateUser,
   deleteUser,
-} from "./usersController.js";
+} from "./user.controller.js";
 
 export enum HttpMethod {
   GET = "GET",
