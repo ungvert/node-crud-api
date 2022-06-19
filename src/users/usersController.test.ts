@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { ENDPOINTS } from "../endpoints.js";
-import { User } from "./user.js";
+import { User } from "./user.model.js";
 import { request } from "../common/testUtils.js";
 
 describe(`Users`, () => {

@@ -7,6 +7,7 @@
     "start": "nodemon ./src/app.ts",
     "start:dev": "npm run start",
     "start:prod": "npm run build && node ./dist/app.js",
+    "start:multi": "npm run build && node ./dist/app.cluster.js",
     "build": "tsc",
     "test": "vitest",
     "coverage": "vitest run --coverage"

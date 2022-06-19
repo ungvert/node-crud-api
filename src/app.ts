@@ -1,9 +1,8 @@
-import { once } from "events";
-import { createServer } from "./createServer.js";
+import { startServer } from "./server.js";
 import "dotenv/config";
-const server = await createServer();
+import { db } from "./db.js";
 
-server.listen(process.env.PORT);
+const port = Number(process.env.PORT);
 
-await once(server, "listening");
-console.log(`Server started: http://localhost:${process.env.PORT}`);
+await startServer(port, () => db);
+console.log(`Server started: http://localhost:${port}`);
