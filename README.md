@@ -16,7 +16,7 @@ Development server with nodemon: `start:dev`
 
 Production server: `start:prod`
 
-Node cluster server: `start:multi`
+Cluster server: `start:multi`
 
 # Using
 

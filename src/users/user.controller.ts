@@ -18,10 +18,8 @@ export async function usersController(req: IncomingMessage, res: ServerResponse)
     ? routerUserWithId[req.method as HttpMethod]
     : routerUser[req.method as HttpMethod];
 
-  if (!resolver) {
-    new Error("Route not found");
-    return;
-  }
+  if (!resolver) throw new Error("Route not found");
+
   await resolver(req, res, userId);
 }
 
