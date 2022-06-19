@@ -1,0 +1,49 @@
+{
+  "name": "crud-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon ./src/app.ts",
+    "start:dev": "npm run start",
+    "start:prod": "npm run build && node ./dist/app.js",
+    "start:multi": "npm run build && node ./dist/app.cluster.js",
+    "build": "tsc",
+    "test": "vitest",
+    "test:multi": "cross-env TEST_CLUSTER=1 vitest --testNamePattern cluster",
+    "coverage": "vitest run --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ungvert/node-crud-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ungvert/node-crud-api/issues"
+  },
+  "homepage": "https://github.com/ungvert/node-crud-api#readme",
+  "type": "module",
+  "engines": {
+    "node": ">=16.15.0"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.17.0",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.6.2",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.42",
+    "@types/supertest": "^2.0.12",
+    "@types/uuid": "^8.3.4",
+    "c8": "^7.11.3",
+    "supertest": "^6.2.3",
+    "vitest": "^0.14.2"
+  }
+}
